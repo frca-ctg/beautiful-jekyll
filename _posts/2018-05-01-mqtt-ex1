@@ -1,0 +1,51 @@
+---
+layout: post
+title: Location Tracker
+subtitle: Exercise 
+gh-repo: frca-ctg/klarrio/ex1
+gh-badge: [star, fork, follow]
+tags: [test, mqtt, websockets, twisted]
+---
+
+## Description
+The goal of this exercise is to findout if our friends are in some specific areas. You can [see it here](client.html)
+
+##Solution components
+
+1. Everyone has the [Owntracks](http://owntracks.org/booklet/) application on his/her GSM.
+1. Owntracks publishes location data and region events to a private [AWS MQTT broker](https://docs.aws.amazon.com/iot/latest/developerguide/iot-message-broker.html).
+1. On a micro EC2 instance, we run an EC2 server which is connected to the AWS-MQTT browser over the MQTT protocol, and with client browsers using the Websocket protocol. 
+   The same server also serves this webpage over HTTP. The server saves the mqtt messages for analytics, maintains the current locations and regions,
+   and broadcasts current state to all browser clients whenever something changes.
+
+The server implementation is based on a number of Python libraries:
+- [Paho MQTT](https://github.com/eclipse/paho.mqtt.python) for the MQTT client
+- [Twisted](https://twistedmatrix.com/trac/) for the HTTP server
+- [Autobahn](http://autobahn.readthedocs.io/en/latest/) for the websocket server
+
+The browser uses javascript
+- [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
+- jQuery for DOM manipulation
+
+
+##Server Functionalities:
+
+| Feature | Status | 
+| :---------------------------------------------------- |:--- |
+| Connect to Aws MQTT securely and reliably | OK |
+| Listen for HTTP requests from browsers | OK |
+| Setup websocket connection with browsers | OK |
+| Subscribe to owntracks/# topic | OK |
+| Save mqtt messages in file | OK |
+| Save mqtt messages on DynamoDB | - |
+| Save current Friend Location/Region | OK |
+| Broadcast All current Loc/Reg to connected websockets | OK |
+
+##Client browser functionalities
+| Feature | Status | 
+| :---------------------------------------------------- |:--- |
+| Establish websocket connection | OK |
+| Show received websocket messages on screen | POC |
+| Button to send websocket message | POC | 
+
+
