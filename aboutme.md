@@ -4,7 +4,7 @@ title: About me
 subtitle: but don't believe it
 ---
 
-I'm a student in the arts of:
+### I'm a student in the arts of:
 
 - Playing
 - Listening
