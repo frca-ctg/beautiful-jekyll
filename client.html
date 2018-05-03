@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
    <head>
+      <meta charset="utf-8">
+      <title>Aanwezigen bij Klarrio</title>
+
+        <style>
+        body {
+           background-color: lightblue;
+           }
+        table {
+            width:100%;
+            border: 1px solid grey
+            }
+        td, th {
+            border: 1px solid grey;
+            text-align: left;
+            padding: 12px;
+        </style>
+
       <script type="text/javascript">
          var socket = null;
          var isopen = false;
 
          window.onload = function() {
-
+             
             socket = new WebSocket("ws://127.0.0.1:9000");
             socket.binaryType = "arraybuffer";
 
@@ -18,7 +35,49 @@
             socket.onmessage = function(e) {
                if (typeof e.data == "string") {
                   console.log("Text message received: " + e.data);
-                  document.getElementById('current').innerHTML = e.data
+                  document.getElementById('current').innerHTML = e.data;
+                
+               //var obj = e.data;
+               //obj.replace("u\"","\"").replace("u\'","\'")
+                var obj=JSON.parse(e.data)
+                var dt = new Date();
+
+                if (obj.Ha) {
+                    document.getElementById("Ha-Latitude").innerHTML = JSON.stringify(obj.Ha.lat);
+                    document.getElementById("Ha-Longitude").innerHTML = JSON.stringify(obj.Ha.lon);
+                    
+                    dt.setTime(JSON.stringify(obj.Ha.tst)+"000");
+                    document.getElementById("Ha-Time").innerHTML = dt;
+                    }
+                if (obj.FC){
+                    document.getElementById("FC-Latitude").innerHTML = JSON.stringify(obj.FC.lat);
+                    document.getElementById("FC-Longitude").innerHTML = JSON.stringify(obj.FC.lon);
+                    
+                    dt.setTime(JSON.stringify(obj.FC.tst)+"000");
+                    document.getElementById("FC-Time").innerHTML = dt;
+                    }
+                if (obj.vb) {
+                    document.getElementById("vb-Latitude").innerHTML = JSON.stringify(obj.vb.lat);
+                    document.getElementById("vb-Longitude").innerHTML = JSON.stringify(obj.vb.lon);
+
+                    dt.setTime(JSON.stringify(obj.vb.tst)+"000");
+                    document.getElementById("vb-Time").innerHTML = dt;
+                    }
+                if (obj.GP) {
+                    document.getElementById("GP-Latitude").innerHTML = JSON.stringify(obj.GP.lat);
+                    document.getElementById("GP-Longitude").innerHTML = JSON.stringify(obj.GP.lon);
+
+                    dt.setTime(JSON.stringify(obj.GP.tst)+"000");
+                    document.getElementById("GP-Time").innerHTML = dt;
+                    }
+                if (obj.LV) {
+                    document.getElementById("LV-Latitude").innerHTML = JSON.stringify(obj.LV.lat);
+                    document.getElementById("LV-Longitude").innerHTML = JSON.stringify(obj.LV.lon);
+
+                    dt.setTime(JSON.stringify(obj.LV.tst)+"000");
+                    document.getElementById("LV-Time").innerHTML = dt;
+                    }
+                   
                } else {
                   var arr = new Uint8Array(e.data);
                   var hex = '';
@@ -56,12 +115,63 @@
                console.log("Connection not opened.")
             }
          };
+         
+         
+         
+         
+         
       </script>
    </head>
    <body>
-      <p>Open your browser's JavaScript console to see what's happening (hit F12).</p>
+      <p>Open JavaScript console to see what's happening (hit F12).</p>
       <!--button onclick='sendText();'>Send Text Message</button>
       <button onclick='sendBinary();'>Send Binary Message</button-->
+ 
+ 
+ <table>
+	<caption>Most recent data</caption>
+		
+	<tr>
+		<th>Wie</th>
+		<th>Latitude</th>
+		<th>Longitude</th>
+		<th>Time</th>
+	</tr>
+	<tr>
+		<td>Hans</td>
+		<td id="Ha-Latitude" style="Color: Red"></td>
+		<td id="Ha-Longitude" style="Color: Red"></td>
+		<td id="Ha-Time" style="Color: Red"></td>
+	</tr>
+	<tr>
+		<td>Fred</td>
+		<td id="FC-Latitude" style="Color: Green"></td>
+		<td id="FC-Longitude" style="Color: Green"></td>
+		<td id="FC-Time" style="Color: Green"></td>
+	</tr>
+	<tr>
+		<td>George</td>
+		<td id="GP-Latitude" style="Color: yellow"></td>
+		<td id="GP-Longitude" style="Color: Yellow"></td>
+		<td id="GP-Time" style="Color: yellow"></td>
+	</tr>
+	<tr>
+		<td>Vladimir</td>
+		<td id="vb-Latitude" style="Color: Black"></td>
+		<td id="vb-Longitude" style="Color: Black"></td>
+		<td id="vb-Time" style="Color: Black"></td>
+	</tr>
+	<tr>
+		<td>Lieve</td>
+		<td id="LV-Latitude" style="Color: Blue"></td>
+		<td id="LV-Longitude" style="Color: Blue"></td>
+		<td id="LV-Time" style="Color: Blue"></td>
+	</tr>
+</table>
+
+      
+      
+      
       <button onclick='sendText();'>Get it NOW</button>
       <p><div id='current'>No Data Yet</div></p>
    </body>
