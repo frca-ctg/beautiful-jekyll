@@ -27,6 +27,7 @@ navbar-links:
   Exercises:
     - MQTT and Websockets: client.html
   Resources:
+    - My github: "https://github.com/frca-ctg/frca-ctg.github.io"
     - Learn markdown: "http://www.markdowntutorial.com/"
   
 #  Author's home: "http://deanattali.com"
